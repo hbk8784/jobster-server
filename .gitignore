@@ -1,0 +1,31 @@
+# Dependency directories
+node_modules/
+
+# Environment variables file (if you have one)
+.env
+
+# Logs
+logs/
+*.log
+
+# Runtime data such as cache
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Compiled binary addons (if any)
+node_modules/**/*.node
+
+# Directory for built output
+dist/
+
+# npm debug log file
+npm-debug.log
+
+# Yarn Integrity file
+.yarn-integrity
+
+# Optional: IDE/Editor specific files
+.idea/
+.vscode/
