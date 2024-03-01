@@ -4,37 +4,37 @@ const mongoose = require("mongoose");
 
 async function getAllJobs(req, res) {
   try {
-    // const { search, status, jobType, sort } = req.query;
+    const { search, status, jobType, sort } = req.query;
     // console.log(req.query);
 
-    // const queryObject = {
-    //   createdBy: req.user.id,
-    // };
+    const queryObject = {
+      createdBy: req.user.id,
+    };
 
-    // if (search) {
-    //   queryObject.position = { $regex: search, $options: "i" };
-    // }
+    if (search) {
+      queryObject.position = { $regex: search, $options: "i" };
+    }
 
-    // if (status && status !== "all") {
-    //   queryObject.status = status;
-    // }
-    // if (jobType && jobType !== "all") {
-    //   queryObject.jobType = jobType;
-    // }
-    // let result = await jobSchema.find(queryObject);
+    // const jobs = await jobSchema.find({ createdBy: req.user.id });
 
-    // if (sort === "latest") {
-    //   result = await result.sort("-createdAt");
-    // }
-    // if (sort === "oldest") {
-    //   result = await result.sort("createdAt");
-    // }
-    // if (sort === "a-z") {
-    //   result = await result.sort("position");
-    // }
-    // if (sort === "z-a") {
-    //   result = await result.sort("-position");
-    // }
+    if (status && status !== "all") {
+      queryObject.status = status;
+    }
+    if (jobType && jobType !== "all") {
+      queryObject.jobType = jobType;
+    }
+
+    let jobs = await jobSchema.find(queryObject);
+
+    if (sort === "latest") {
+      jobs = await jobs.sort("-createdAt");
+    } else if (sort === "oldest") {
+      jobs = await jobs.sort("createdAt");
+    } else if (sort === "a-z") {
+      jobs = await jobs.sort("position");
+    } else {
+      jobs = await v.sort("-position");
+    }
 
     // const page = Number(req.query.page) || 1;
     // const limit = Number(req.query.limit) || 10;
@@ -46,8 +46,6 @@ async function getAllJobs(req, res) {
 
     // const totalJobs = await jobSchema.countDocuments(queryObject);
     // const numOfPages = Math.ceil(totalJobs / limit);
-
-    const jobs = await jobSchema.find({ createdBy: req.user.id });
 
     res.status(200).json({ jobs });
   } catch (error) {
