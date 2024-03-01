@@ -21,7 +21,7 @@ const cors = require("cors");
 // );
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://venerable-valkyrie-f8109a.netlify.app",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Authorization", "Content-Type"],
   })
