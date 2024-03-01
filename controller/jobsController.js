@@ -26,15 +26,15 @@ async function getAllJobs(req, res) {
 
     let jobs = await jobSchema.find(queryObject);
 
-    if (sort === "latest") {
-      jobs = await jobs.sort("-createdAt");
-    } else if (sort === "oldest") {
-      jobs = await jobs.sort("createdAt");
-    } else if (sort === "a-z") {
-      jobs = await jobs.sort("position");
-    } else {
-      jobs = await v.sort("-position");
-    }
+    // if (sort === "latest") {
+    //   jobs = await jobs.sort("-createdAt");
+    // } else if (sort === "oldest") {
+    //   jobs = await jobs.sort("createdAt");
+    // } else if (sort === "a-z") {
+    //   jobs = await jobs.sort("position");
+    // } else {
+    //   jobs = await v.sort("-position");
+    // }
 
     // const page = Number(req.query.page) || 1;
     // const limit = Number(req.query.limit) || 10;
