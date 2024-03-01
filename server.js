@@ -22,7 +22,7 @@ const cors = require("cors");
 app.use(
   cors({
     origin: "http://localhost:3000",
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Authorization", "Content-Type"],
   })
 );
