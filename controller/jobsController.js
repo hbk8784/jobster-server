@@ -3,58 +3,54 @@ const moment = require("moment");
 const mongoose = require("mongoose");
 
 async function getAllJobs(req, res) {
-  // const jobs = await jobSchema
-  //   .find({ createdBy: req.user.id })
-  //   .sort("createdAt");
-  // res.status(200).json({ jobs });
-  // if (!jobs) {
-  //   res.status(400).json({ msg: "Failed to get Jobs" });
-  // }
+  try {
+    const { search, status, jobType, sort } = req.query;
+    console.log(req.query);
 
-  const { search, status, jobType, sort } = req.query;
-  console.log(req.query);
+    const queryObject = {
+      createdBy: req.user.id,
+    };
 
-  const queryObject = {
-    createdBy: req.user.id,
-  };
+    if (search) {
+      queryObject.position = { $regex: search, $options: "i" };
+    }
 
-  if (search) {
-    queryObject.position = { $regex: search, $options: "i" };
+    if (status && status !== "all") {
+      queryObject.status = status;
+    }
+    if (jobType && jobType !== "all") {
+      queryObject.jobType = jobType;
+    }
+    let result = await jobSchema.find(queryObject);
+
+    if (sort === "latest") {
+      result = await result.sort("-createdAt");
+    }
+    if (sort === "oldest") {
+      result = await result.sort("createdAt");
+    }
+    if (sort === "a-z") {
+      result = await result.sort("position");
+    }
+    if (sort === "z-a") {
+      result = await result.sort("-position");
+    }
+
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    result = await result.skip(skip).limit(limit);
+
+    const jobs = await result;
+
+    const totalJobs = await jobSchema.countDocuments(queryObject);
+    const numOfPages = Math.ceil(totalJobs / limit);
+
+    res.status(200).json({ jobs, totalJobs, numOfPages });
+  } catch (error) {
+    res.status(400).json({ message: error });
   }
-
-  if (status && status !== "all") {
-    queryObject.status = status;
-  }
-  if (jobType && jobType !== "all") {
-    queryObject.jobType = jobType;
-  }
-  let result = await jobSchema.find(queryObject);
-
-  if (sort === "latest") {
-    result = result.sort("-createdAt");
-  }
-  if (sort === "oldest") {
-    result = result.sort("createdAt");
-  }
-  if (sort === "a-z") {
-    result = result.sort("position");
-  }
-  if (sort === "z-a") {
-    result = result.sort("-position");
-  }
-
-  const page = Number(req.query.page) || 1;
-  const limit = Number(req.query.limit) || 10;
-  const skip = (page - 1) * limit;
-
-  result = result.skip(skip).limit(limit);
-
-  const jobs = await result;
-
-  const totalJobs = await jobSchema.countDocuments(queryObject);
-  const numOfPages = Math.ceil(totalJobs / limit);
-
-  res.status(200).json({ jobs, totalJobs, numOfPages });
 }
 
 const getJobs = async (req, res) => {
