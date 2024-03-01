@@ -22,7 +22,7 @@ const cors = require("cors");
 app.use(
   cors({
     origin: "*", // Allow requests from this origin
-    credentials: true,
+    credentials: false,
     methods: ["GET", "POST"],
     allowedHeaders: ["Authorization", "Content-Type"],
   })
