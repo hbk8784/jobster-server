@@ -19,7 +19,12 @@ const cors = require("cors");
 //     max: 100, //maximum 100 request per windowMS
 //   })
 // );
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Allow requests from this origin
+    methods: ["GET", "POST"],
+  })
+);
 // app.use(helmet());
 // app.use(xss());
 
