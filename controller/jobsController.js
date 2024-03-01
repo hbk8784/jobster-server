@@ -47,7 +47,7 @@ async function getAllJobs(req, res) {
     // const totalJobs = await jobSchema.countDocuments(queryObject);
     // const numOfPages = Math.ceil(totalJobs / limit);
 
-    const jobs = jobSchema.findById({ createdBy: req.user.id });
+    const jobs = await jobSchema.findById({ createdBy: req.user.id });
 
     res.status(200).json({ jobs });
   } catch (error) {
