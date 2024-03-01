@@ -14,9 +14,7 @@ async function getAllJobs(req, res) {
     if (search) {
       queryObject.position = { $regex: search, $options: "i" };
     }
-
-    // const jobs = await jobSchema.find({ createdBy: req.user.id });
-
+    ////////////////////////////////////////////////////////////////
     if (status && status !== "all") {
       queryObject.status = status;
     }
@@ -36,18 +34,16 @@ async function getAllJobs(req, res) {
     //   jobs = await v.sort("-position");
     // }
 
-    // const page = Number(req.query.page) || 1;
-    // const limit = Number(req.query.limit) || 10;
-    // const skip = (page - 1) * limit;
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
 
-    // result = await result.skip(skip).limit(limit);
+    jobs = await jobs.skip(skip).limit(limit);
 
-    // const jobs = await result;
+    const totalJobs = await jobSchema.countDocuments(queryObject);
+    const numOfPages = Math.ceil(totalJobs / limit);
 
-    // const totalJobs = await jobSchema.countDocuments(queryObject);
-    // const numOfPages = Math.ceil(totalJobs / limit);
-
-    res.status(200).json({ jobs });
+    res.status(200).json({ jobs, totalJobs, numOfPages });
   } catch (error) {
     res.status(400).json({ message: error.msg });
   }
