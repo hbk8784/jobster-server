@@ -22,6 +22,8 @@ const cors = require("cors");
 app.use(
   cors({
     origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Authorization", "Content-Type"],
   })
 );
 // app.use(helmet());
