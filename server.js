@@ -23,7 +23,7 @@ app.use(
   cors({
     origin: "*", // Allow requests from this origin
     methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"],
+    allowedHeaders: ["Authorization", "Content-Type"],
   })
 );
 // app.use(helmet());
