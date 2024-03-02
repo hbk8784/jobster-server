@@ -14,7 +14,7 @@ async function getAllJobs(req, res) {
     if (search) {
       queryObject.position = { $regex: search, $options: "i" };
     }
-    ////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////
     if (status && status !== "all") {
       queryObject.status = status;
     }
